@@ -120,15 +120,22 @@ export const COUNSELING_CASES: CounselingCase[] = [
       }
     ],
     dialogueRules: [
-      {
-        id: 'rule-greet-identify',
-        triggerKeywords: ['hello', 'hi', 'good morning', 'good afternoon', 'budi', 'confirm', 'name', 'date of birth', 'mr budi', 'pharmacist'],
-        intent: 'Introduction and patient identity verification',
-        competencyTarget: 'intro_identification',
-        patientResponse: 'Hello Pharmacist! Yes, my name is Budi Santoso, born August 14, 1974. Dr. Hendra told me to bring this paper here to get my blood pressure tablets.',
-        moodReaction: 'neutral',
-        marksChecklistItemId: 'check-intro'
-      },
+     {
+  id: 'rule-greet-identify',
+  triggerKeywords: [
+    'hello',
+    'good morning',
+    'good afternoon',
+    'good evening',
+    'nice to meet you',
+    'how are you today'
+  ],
+  intent: 'Greeting and initial introduction',
+  competencyTarget: 'intro_identification',
+  patientResponse: 'Hello Pharmacist! Yes, my name is Budi Santoso, born August 14, 1974. Dr. Hendra told me to bring this paper here to get my blood pressure tablets.',
+  moodReaction: 'neutral',
+  marksChecklistItemId: 'check-intro'
+},
       {
         id: 'rule-budi-time-consent',
         triggerKeywords: ['few minutes', 'have a minute', 'have time', 'minute to counsel', 'counsel', 'discuss', 'time to talk', 'speak with you', 'consultation', 'talk to you', 'go over', 'can i talk', 'can we discuss'],
@@ -233,15 +240,56 @@ export const COUNSELING_CASES: CounselingCase[] = [
         marksChecklistItemId: 'check-silent-killer'
       },
       {
-        id: 'rule-lifestyle-diet',
-        triggerKeywords: ['salt', 'sodium', 'diet', 'coffee', 'caffeine', 'smoke', 'smoking', 'exercise', 'food', 'lifestyle'],
-        intent: 'Non-pharmacological and dietary counseling',
-        competencyTarget: 'lifestyle_counseling',
-        patientResponse: 'You caught me on the salted fish and dried crackers! I love them when I drive. I will definitely reduce the salt, drink more plain water instead of sweet coffee, and try to cut down on cigarettes.',
-        revealsHiddenKey: 'diet',
-        moodReaction: 'grateful',
-        marksChecklistItemId: 'check-lifestyle'
-      },
+  id: 'rule-lifestyle-diet',
+  triggerKeywords: [
+    'salted fish',
+    'salty food',
+    'salty snacks',
+    'food during work',
+    'food during shifts',
+    'what do you eat',
+    'eating habits',
+    'diet'
+  ],
+  intent: 'Dietary habits and sodium intake',
+  competencyTarget: 'lifestyle_counseling',
+  patientResponse: 'Well, I often eat salted fish, fried tempeh, and instant soup while driving. They are convenient to buy on the road. I guess those foods are quite salty, arent they?',
+  revealsHiddenKey: 'diet',
+  moodReaction: 'curious',
+  marksChecklistItemId: 'check-lifestyle'
+},
+{
+  id: 'rule-lifestyle-coffee',
+  triggerKeywords: [
+    'coffee',
+    'caffeine',
+    'sweetened drinks',
+    'how much coffee',
+    'drink every day'
+  ],
+  intent: 'Coffee and caffeine consumption',
+  competencyTarget: 'lifestyle_counseling',
+  patientResponse: 'I drink around two or three cups of sweetened coffee every day to stay awake during my long taxi shifts. Is that bad for my blood pressure?',
+  revealsHiddenKey: 'diet',
+  moodReaction: 'curious',
+  marksChecklistItemId: 'check-lifestyle'
+},
+{
+  id: 'rule-lifestyle-smoking',
+  triggerKeywords: [
+    'smoke',
+    'smoking',
+    'cigarette',
+    'tobacco',
+    'how many cigarettes'
+  ],
+  intent: 'Smoking habits',
+  competencyTarget: 'lifestyle_counseling',
+  patientResponse: 'I smoke about half a pack of cigarettes a day. I know it is probably not good for my health, but quitting sounds difficult. Do you have any advice?',
+  revealsHiddenKey: 'diet',
+  moodReaction: 'curious',
+  marksChecklistItemId: 'check-lifestyle'
+},
       {
         id: 'rule-teach-back',
         triggerKeywords: ['repeat', 'teach back', 'explain back', 'how will you take', 'make sure i explained', 'in your own words', 'summary'],

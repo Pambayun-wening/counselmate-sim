@@ -16,20 +16,38 @@ export function processPharmacistInput(
   transcriptHistory: ChatMessage[]
 ): DialogueMatchResult {
   const input = rawInput.trim().toLowerCase();
-
+console.log('ACTIVE CASE:', counselingCase.id);
+console.log('TOTAL RULES:', counselingCase.dialogueRules.length);
+console.log(
+  'DIET RULE EXISTS:',
+  counselingCase.dialogueRules.some(rule => rule.id === 'rule-lifestyle-diet')
+);
+console.log('USER INPUT:', input);
   // Score candidate rules based on keyword hits and intent
   let bestMatchRule: (typeof counselingCase.dialogueRules)[0] | null = null;
   let highestScore = 0;
 
+  
   for (const rule of counselingCase.dialogueRules) {
     let score = 0;
+
     for (const kw of rule.triggerKeywords) {
       const lowerKw = kw.toLowerCase();
-      if (input.includes(lowerKw)) {
-        // Longer matching phrases carry higher semantic weight
-        score += lowerKw.split(' ').length * 3;
-      }
+      if (rule.id === 'rule-lifestyle-diet') {
+  console.log('DIET KEYWORD:', lowerKw);
+  console.log('MATCH:', input.includes(lowerKw));
+}
+     const keywordWords = lowerKw.split(/\s+/);
+const allWordsMatch = keywordWords.every(word =>
+  input.includes(word)
+);
+
+if (allWordsMatch) {
+  score += keywordWords.length * 3;
+}
     }
+
+    console.log('RULE CHECK:', rule.id, 'SCORE:', score);
 
     if (score > highestScore) {
       highestScore = score;
@@ -37,8 +55,9 @@ export function processPharmacistInput(
     }
   }
 
+
   // If a strong rule match was found (threshold >= 3)
-  if (bestMatchRule && highestScore >= 3) {
+ console.log('SELECTED RULE:', bestMatchRule?.id, 'SCORE:', highestScore); if (bestMatchRule && highestScore >= 3) {
     let notification: string | undefined = undefined;
     if (bestMatchRule.revealsHiddenKey && !revealedKeysState[bestMatchRule.revealsHiddenKey]) {
       notification = `Clinical Fact Discovered: ${getFactLabel(bestMatchRule.revealsHiddenKey, counselingCase)}`;
